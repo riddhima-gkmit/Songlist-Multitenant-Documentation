@@ -1114,7 +1114,7 @@
 </tr>
 </tbody>
 </table>
-<p><em>Permissions:</em> AllowAny for auth flows; IsAuthenticated for logout.</p>
+<p><strong>Permissions:</strong> AllowAny for auth flows; IsAuthenticated for logout.</p>
 <hr>
 <h3 id="2-user-management-apis">2. User Management APIs<a class="headerlink" href="#2-user-management-apis" title="Permanent link">¶</a></h3>
 <table>
@@ -1203,7 +1203,7 @@
 </tr>
 </tbody>
 </table>
-<p><em>Query params (GET /users/):</em> <code>page</code>, <code>page_size</code>, <code>is_active</code>, <code>name</code>, <code>email</code>.</p>
+<p><strong>Query params (GET /users/):</strong> <code>page</code>, <code>page_size</code>, <code>is_active</code>, <code>name</code>, <code>email</code>.</p>
 <p><strong>User Deletion &amp; Restoration:</strong></p>
 <table>
 <thead>
@@ -1229,8 +1229,8 @@
 </tr>
 </tbody>
 </table>
-<p><em>Query params (GET /users/deleted/):</em> <code>page</code>, <code>page_size</code>, <code>deletion_type</code> (<code>self</code> | <code>admin</code> | <code>super admin</code>).</p>
-<p><em>Data filtering:</em> ADMIN sees tenant users (full details); SUPER_ADMIN sees count only (no PII) for GET /users/.</p>
+<p><strong>Query params (GET /users/deleted/):</strong> <code>page</code>, <code>page_size</code>, <code>deletion_type</code> (<code>self</code> | <code>admin</code> | <code>super admin</code>).</p>
+<p><strong>Data filtering:</strong> ADMIN sees tenant users (full details); SUPER_ADMIN sees count only (no PII) for GET /users/.</p>
 <hr>
 <h3 id="3-tenant-management-apis">3. Tenant Management APIs<a class="headerlink" href="#3-tenant-management-apis" title="Permanent link">¶</a></h3>
 <table>
@@ -1311,9 +1311,9 @@
 </tr>
 </tbody>
 </table>
-<p><em>Query params (GET /tenants/):</em> <code>page</code>, <code>page_size</code>.</p>
-<p><em>Query params (GET /super-admin/admins/):</em> <code>page</code>, <code>page_size</code>, <code>is_active</code>, <code>name</code>, <code>email</code>, <code>tenant_id</code> (comma-separated UUIDs).</p>
-<p><em>Permissions:</em> IsSuperAdmin for mutate; IsAdminOrSuperAdmin for GET detail.</p>
+<p><strong>Query params (GET /tenants/):</strong> <code>page</code>, <code>page_size</code>.</p>
+<p><strong>Query params (GET /super-admin/admins/):</strong> <code>page</code>, <code>page_size</code>, <code>is_active</code>, <code>name</code>, <code>email</code>, <code>tenant_id</code> (comma-separated UUIDs).</p>
+<p><strong>Permissions:</strong> IsSuperAdmin for mutate; IsAdminOrSuperAdmin for GET detail.</p>
 <hr>
 <h3 id="4-tenant-song-link-apis">4. Tenant-Song Link APIs<a class="headerlink" href="#4-tenant-song-link-apis" title="Permanent link">¶</a></h3>
 <table>
@@ -1378,7 +1378,7 @@
 </tr>
 </tbody>
 </table>
-<p><em>Query params (GET /tenant/songs/):</em> <code>page</code>, <code>page_size</code>, <code>title</code>, <code>artist</code>, <code>genre</code>, <code>album</code> (all optional filters).</p>
+<p><strong>Query params (GET /tenant/songs/):</strong> <code>page</code>, <code>page_size</code>, <code>title</code>, <code>artist</code>, <code>genre</code>, <code>album</code> (all optional filters).</p>
 <p>LISTENER sees approved tenant songs only; ADMIN sees all in tenant. SUPER_ADMIN has no access.</p>
 <hr>
 <h3 id="5-song-management-apis">5. Song Management APIs<a class="headerlink" href="#5-song-management-apis" title="Permanent link">¶</a></h3>
@@ -1436,8 +1436,8 @@
 </tr>
 </tbody>
 </table>
-<p><em>Query params (GET /songs/):</em> <code>page</code>, <code>page_size</code>, <code>title</code>, <code>artist</code>, <code>genre</code>, <code>album</code> (all optional filters).</p>
-<p><em>Data separation:</em>
+<p><strong>Query params (GET /songs/):</strong> <code>page</code>, <code>page_size</code>, <code>title</code>, <code>artist</code>, <code>genre</code>, <code>album</code> (all optional filters).</p>
+<p><strong>Data separation:</strong>
 - LISTENER: No direct access; use <code>/api/v1/tenant/songs/</code>.
 - ADMIN: TENANT songs only (visibility=TENANT, tenant=user's tenant).
 - SUPER_ADMIN: GLOBAL songs only (visibility=GLOBAL).</p>
@@ -1513,8 +1513,8 @@
 </tr>
 </tbody>
 </table>
-<p><em>Query params (GET /song-requests/):</em> <code>page</code>, <code>page_size</code>, <code>status</code> (ADMIN only; filter by request status).</p>
-<p><em>Permission:</em> IsAuthenticated + IsTenantUser. ADMIN can create requests for any tenant user via <code>user_id</code>.</p>
+<p><strong>Query params (GET /song-requests/):</strong> <code>page</code>, <code>page_size</code>, <code>status</code> (ADMIN only; filter by request status).</p>
+<p><strong>Permission:</strong> IsAuthenticated + IsTenantUser. ADMIN can create requests for any tenant user via <code>user_id</code>.</p>
 <hr>
 <h3 id="7-playlist-apis">7. Playlist APIs<a class="headerlink" href="#7-playlist-apis" title="Permanent link">¶</a></h3>
 <table>
@@ -1603,8 +1603,8 @@
 </tr>
 </tbody>
 </table>
-<p><em>Query params (GET /playlists/):</em> <code>page</code>, <code>page_size</code>. <em>Query params (GET /playlists/{id}/songs/):</em> <code>page</code>, <code>page_size</code>.</p>
-<p><em>Permission:</em> IsAuthenticated; IsOwnerOrAdmin for detail. SUPER_ADMIN has no access.</p>
+<p><strong>Query params (GET /playlists/):</strong> <code>page</code>, <code>page_size</code>. <strong>Query params (GET /playlists/{id}/songs/):</strong> <code>page</code>, <code>page_size</code>.</p>
+<p><strong>Permission:</strong> IsAuthenticated; IsOwnerOrAdmin for detail. SUPER_ADMIN has no access.</p>
 <hr>
 <h3 id="8-genre-apis">8. Genre APIs<a class="headerlink" href="#8-genre-apis" title="Permanent link">¶</a></h3>
 <table>
@@ -1661,7 +1661,7 @@
 </tr>
 </tbody>
 </table>
-<p><em>Query params (GET /genres/):</em> <code>page</code>, <code>page_size</code>.</p>
+<p><strong>Query params (GET /genres/):</strong> <code>page</code>, <code>page_size</code>.</p>
 <hr>
 <h3 id="9-payment-apis">9. Payment APIs<a class="headerlink" href="#9-payment-apis" title="Permanent link">¶</a></h3>
 <table>
@@ -1718,8 +1718,8 @@
 </tr>
 </tbody>
 </table>
-<p><em>Query params (GET /payments/super-admin/subscriptions/):</em> <code>page</code>, <code>page_size</code>, <code>tenant_id</code>, <code>is_premium</code>.</p>
-<p><em>Query params (GET /payments/super-admin/payments/):</em> <code>page</code>, <code>page_size</code>, <code>tenant_id</code>, <code>status</code>.</p>
+<p><strong>Query params (GET /payments/super-admin/subscriptions/):</strong> <code>page</code>, <code>page_size</code>, <code>tenant_id</code>, <code>is_premium</code>.</p>
+<p><strong>Query params (GET /payments/super-admin/payments/):</strong> <code>page</code>, <code>page_size</code>, <code>tenant_id</code>, <code>status</code>.</p>
 <hr>
 <h2 id="data-scope-rules">Data Scope Rules<a class="headerlink" href="#data-scope-rules" title="Permanent link">¶</a></h2>
 <h3 id="own-data">Own Data<a class="headerlink" href="#own-data" title="Permanent link">¶</a></h3>

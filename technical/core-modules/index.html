@@ -933,97 +933,139 @@ Endpoints: <a href="../api-design/">API Design</a>.</p>
 <hr>
 <h2 id="tenants">Tenants<a class="headerlink" href="#tenants" title="Permanent link">¶</a></h2>
 <p><strong>Purpose:</strong> Multi-tenant organizations. Managed by SUPER_ADMIN; ADMIN can view their tenant only.</p>
-<p><strong>Who can access:</strong>
-- <strong>LISTENER:</strong> No access.
-- <strong>ADMIN:</strong> GET tenant details only (own tenant).
-- <strong>SUPER_ADMIN:</strong> Full CRUD, activate, deactivate.</p>
-<p><strong>Data scope:</strong>
-- Global (platform-level resource)</p>
-<p><strong>Business rules:</strong>
-- Tenant cannot be deleted if it has any active users.
-- Soft delete; unique name among non-deleted tenants.</p>
+<p><strong>Who can access:</strong></p>
+<ul>
+<li><strong>LISTENER:</strong> No access.</li>
+<li><strong>ADMIN:</strong> GET tenant details only (own tenant).</li>
+<li><strong>SUPER_ADMIN:</strong> Full CRUD, activate, deactivate.</li>
+</ul>
+<p><strong>Data scope:</strong></p>
+<ul>
+<li>Global (platform-level resource)</li>
+</ul>
+<p><strong>Business rules:</strong></p>
+<ul>
+<li>Tenant cannot be deleted if it has any active users.</li>
+<li>Soft delete; unique name among non-deleted tenants.</li>
+</ul>
 <hr>
 <h2 id="songs">Songs<a class="headerlink" href="#songs" title="Permanent link">¶</a></h2>
 <p><strong>Purpose:</strong> Song catalog with GLOBAL vs TENANT visibility.<br>
 GLOBAL = platform; TENANT = tenant-specific.</p>
-<p><strong>Who can access:</strong>
-- <strong>LISTENER:</strong> No direct access; use <code>/api/v1/tenant/songs/</code> for approved tenant songs.
-- <strong>ADMIN:</strong> TENANT songs in own tenant (and read GLOBAL); create/update/delete TENANT songs.
-- <strong>SUPER_ADMIN:</strong> GLOBAL songs only; create/update/delete GLOBAL songs.</p>
-<p><strong>Data scope:</strong>
-- GLOBAL (platform)
-- TENANT (per tenant)</p>
-<p><strong>Business rules:</strong>
-- <code>visibility</code> is <code>GLOBAL</code> or <code>TENANT</code>.
-- Release year validated (minimum year, not in future).
-- Songs link to genre (required); genre protected from deletion when linked.</p>
+<p><strong>Who can access:</strong></p>
+<ul>
+<li><strong>LISTENER:</strong> No direct access; use <code>/api/v1/tenant/songs/</code> for approved tenant songs.</li>
+<li><strong>ADMIN:</strong> TENANT songs in own tenant (and read GLOBAL); create/update/delete TENANT songs.</li>
+<li><strong>SUPER_ADMIN:</strong> GLOBAL songs only; create/update/delete GLOBAL songs.</li>
+</ul>
+<p><strong>Data scope:</strong></p>
+<ul>
+<li>GLOBAL (platform)</li>
+<li>TENANT (per tenant)</li>
+</ul>
+<p><strong>Business rules:</strong></p>
+<ul>
+<li><code>visibility</code> is <code>GLOBAL</code> or <code>TENANT</code>.</li>
+<li>Release year validated (minimum year, not in future).</li>
+<li>Songs link to genre (required); genre protected from deletion when linked.</li>
+</ul>
 <hr>
 <h2 id="tenant-song-links">Tenant-Song Links<a class="headerlink" href="#tenant-song-links" title="Permanent link">¶</a></h2>
 <p><strong>Purpose:</strong> Link songs to tenants. Controls which songs a tenant can use; admins manage links.</p>
-<p><strong>Who can access:</strong>
-- <strong>LISTENER:</strong> List/detail approved tenant songs only.
-- <strong>ADMIN:</strong> Full CRUD on own tenant’s links; bulk add/delete.
-- <strong>SUPER_ADMIN:</strong> No access.</p>
-<p><strong>Data scope:</strong>
-- Tenant-only</p>
-<p><strong>Business rules:</strong>
-- Unique song per tenant (one link per song per tenant).
-- <code>is_active</code> flags link state.
-- Soft delete on links.</p>
+<p><strong>Who can access:</strong></p>
+<ul>
+<li><strong>LISTENER:</strong> List/detail approved tenant songs only.</li>
+<li><strong>ADMIN:</strong> Full CRUD on own tenant’s links; bulk add/delete.</li>
+<li><strong>SUPER_ADMIN:</strong> No access.</li>
+</ul>
+<p><strong>Data scope:</strong></p>
+<ul>
+<li>Tenant-only</li>
+</ul>
+<p><strong>Business rules:</strong></p>
+<ul>
+<li>Unique song per tenant (one link per song per tenant).</li>
+<li><code>is_active</code> flags link state.</li>
+<li>Soft delete on links.</li>
+</ul>
 <hr>
 <h2 id="playlists">Playlists<a class="headerlink" href="#playlists" title="Permanent link">¶</a></h2>
 <p><strong>Purpose:</strong> User-defined song collections. Owned by users; admins can manage all playlists in their tenant.</p>
-<p><strong>Who can access:</strong>
-- <strong>LISTENER:</strong> Own playlists only.
-- <strong>ADMIN:</strong> All playlists in tenant; can create on behalf of users (<code>user_id</code>).
-- <strong>SUPER_ADMIN:</strong> No access.</p>
-<p><strong>Data scope:</strong>
-- Tenant (via playlist owner’s tenant)</p>
-<p><strong>Business rules:</strong>
-- Playlist name unique per user (among non-deleted).
-- Only approved tenant songs can be added (enforced where used).
-- Object-level permission: owner or ADMIN in same tenant.</p>
+<p><strong>Who can access:</strong></p>
+<ul>
+<li><strong>LISTENER:</strong> Own playlists only.</li>
+<li><strong>ADMIN:</strong> All playlists in tenant; can create on behalf of users (<code>user_id</code>).</li>
+<li><strong>SUPER_ADMIN:</strong> No access.</li>
+</ul>
+<p><strong>Data scope:</strong></p>
+<ul>
+<li>Tenant (via playlist owner’s tenant)</li>
+</ul>
+<p><strong>Business rules:</strong></p>
+<ul>
+<li>Playlist name unique per user (among non-deleted).</li>
+<li>Only approved tenant songs can be added (enforced where used).</li>
+<li>Object-level permission: owner or ADMIN in same tenant.</li>
+</ul>
 <hr>
 <h2 id="song-requests">Song Requests<a class="headerlink" href="#song-requests" title="Permanent link">¶</a></h2>
 <p><strong>Purpose:</strong> Users request songs; admins review and fulfill (approve/reject, link or create song).</p>
-<p><strong>Who can access:</strong>
-- <strong>LISTENER:</strong> Own requests only.
-- <strong>ADMIN:</strong> All requests in tenant; create for any tenant user; review and fulfill.
-- <strong>SUPER_ADMIN:</strong> No access.</p>
-<p><strong>Data scope:</strong>
-- Tenant-only</p>
-<p><strong>Business rules:</strong>
-- Status flow: <code>PENDING → APPROVED | REJECTED | FULFILLED</code>.
-- Unique <code>(song_title, tenant)</code> per request (model constraint).
-- ADMIN can create requests with <code>user_id</code> for any tenant user.</p>
+<p><strong>Who can access:</strong></p>
+<ul>
+<li><strong>LISTENER:</strong> Own requests only.</li>
+<li><strong>ADMIN:</strong> All requests in tenant; create for any tenant user; review and fulfill.</li>
+<li><strong>SUPER_ADMIN:</strong> No access.</li>
+</ul>
+<p><strong>Data scope:</strong></p>
+<ul>
+<li>Tenant-only</li>
+</ul>
+<p><strong>Business rules:</strong></p>
+<ul>
+<li>Status flow: <code>PENDING → APPROVED | REJECTED | FULFILLED</code>.</li>
+<li>Unique <code>(song_title, tenant)</code> per request (model constraint).</li>
+<li>ADMIN can create requests with <code>user_id</code> for any tenant user.</li>
+</ul>
 <hr>
 <h2 id="genres">Genres<a class="headerlink" href="#genres" title="Permanent link">¶</a></h2>
 <p><strong>Purpose:</strong> Platform-wide song categorization. SUPER_ADMIN manages; ADMIN read-only.</p>
-<p><strong>Who can access:</strong>
-- <strong>LISTENER:</strong> No access.
-- <strong>ADMIN:</strong> Read-only (list, detail).
-- <strong>SUPER_ADMIN:</strong> Full CRUD.</p>
-<p><strong>Data scope:</strong>
-- Global</p>
-<p><strong>Business rules:</strong>
-- Genre cannot be deleted if any non–soft-deleted song is linked.
-- Name unique globally.</p>
+<p><strong>Who can access:</strong></p>
+<ul>
+<li><strong>LISTENER:</strong> No access.</li>
+<li><strong>ADMIN:</strong> Read-only (list, detail).</li>
+<li><strong>SUPER_ADMIN:</strong> Full CRUD.</li>
+</ul>
+<p><strong>Data scope:</strong></p>
+<ul>
+<li>Global</li>
+</ul>
+<p><strong>Business rules:</strong></p>
+<ul>
+<li>Genre cannot be deleted if any non–soft-deleted song is linked.</li>
+<li>Name unique globally.</li>
+</ul>
 <hr>
 <h2 id="payments">Payments<a class="headerlink" href="#payments" title="Permanent link">¶</a></h2>
 <p><strong>Purpose:</strong> Razorpay premium subscriptions (lifetime).<br>
 Payment links, webhooks, subscription status.</p>
-<p><strong>Who can access:</strong>
-- <strong>LISTENER:</strong> No access.
-- <strong>ADMIN:</strong> Create payment link; view tenant subscription status.
-- <strong>SUPER_ADMIN:</strong> List all subscriptions and payments; no payment-link creation.</p>
-<p><strong>Data scope:</strong>
-- Tenant (links, subscription)
-- Platform (SUPER_ADMIN lists)</p>
-<p><strong>Business rules:</strong>
-- Payment state machine: <code>CREATED → PENDING → PAID → VERIFIED → ACTIVATED</code> (or <code>FAILED</code>).
-- Webhook signature verification required.
-- Premium stored on tenant’s <code>Subscription</code> (e.g. <code>is_premium</code>).
-- Idempotent processing for webhooks where applicable.</p>
+<p><strong>Who can access:</strong></p>
+<ul>
+<li><strong>LISTENER:</strong> No access.</li>
+<li><strong>ADMIN:</strong> Create payment link; view tenant subscription status.</li>
+<li><strong>SUPER_ADMIN:</strong> List all subscriptions and payments; no payment-link creation.</li>
+</ul>
+<p><strong>Data scope:</strong></p>
+<ul>
+<li>Tenant (links, subscription)</li>
+<li>Platform (SUPER_ADMIN lists)</li>
+</ul>
+<p><strong>Business rules:</strong></p>
+<ul>
+<li>Payment state machine: <code>CREATED → PENDING → PAID → VERIFIED → ACTIVATED</code> (or <code>FAILED</code>).</li>
+<li>Webhook signature verification required.</li>
+<li>Premium stored on tenant’s <code>Subscription</code> (e.g. <code>is_premium</code>).</li>
+<li>Idempotent processing for webhooks where applicable.</li>
+</ul>
 
 
 
