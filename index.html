@@ -9,6 +9,8 @@
         <meta name="author" content="Riddhima Kushwah">
       
       
+        <link rel="canonical" href="https://riddhima-gkmit.github.io/Songlist-Multitenant-Documentation/functional-docs/">
+      
       
       
         <link rel="next" href="functional-docs/">
@@ -442,22 +444,44 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#project-overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        Project overview
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Overview">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem statement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#proposed-solution-and-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proposed solution and objectives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Proposed solution and objectives">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#roles" class="md-nav__link">
+  <a href="#functional-documentation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Roles
+        Functional documentation
       
     </span>
   </a>
@@ -799,11 +823,49 @@
 
 
 <h1 id="songlist-backend">SongList Backend<a class="headerlink" href="#songlist-backend" title="Permanent link">¶</a></h1>
-<p>Multi-tenant music content management API (Django REST Framework). Organizations (tenants) manage music libraries, playlists, song requests, and subscriptions with strict isolation and role-based access.</p>
+<p>Multi-tenant music content management API built with Django REST Framework. It lets organizations (tenants) manage music libraries, playlists, song requests, and subscriptions with strict data isolation and role-based access.</p>
 <hr>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
-<h3 id="roles">Roles<a class="headerlink" href="#roles" title="Permanent link">¶</a></h3>
-<p><strong>LISTENER</strong>, <strong>ADMIN</strong>, <strong>SUPER_ADMIN</strong>. See <a href="functional-docs/">Functional Documentation</a> for capabilities and user journeys.</p>
+<h2 id="project-overview">Project overview<a class="headerlink" href="#project-overview" title="Permanent link">¶</a></h2>
+<p>SongList is the backend for a SaaS platform that serves many independent organizations (tenants), such as venues, labels, and event companies.<br>
+Each tenant can:</p>
+<ul>
+<li>Maintain its own music catalog and playlists</li>
+<li>Accept and manage live song requests</li>
+<li>Offer subscription-based access for listeners</li>
+</ul>
+<p>All of this runs on a shared platform that enforces tenant isolation and central administration.</p>
+<h2 id="problem-statement">Problem statement<a class="headerlink" href="#problem-statement" title="Permanent link">¶</a></h2>
+<p>Most existing music request or playlist systems are built for a <strong>single</strong> organization. This leads to several issues when you try to scale to many tenants:</p>
+<ul>
+<li>Hard to onboard and manage many independent tenants in one system</li>
+<li>Weak or manual data isolation between organizations</li>
+<li>No clear separation of responsibilities between listeners, tenant admins, and platform admins</li>
+<li>Inconsistent or ad-hoc APIs for mobile/web clients</li>
+</ul>
+<p>SongList aims to solve these issues with a purpose-built multi-tenant backend.</p>
+<h2 id="proposed-solution-and-objectives">Proposed solution and objectives<a class="headerlink" href="#proposed-solution-and-objectives" title="Permanent link">¶</a></h2>
+<p>SongList provides:</p>
+<ul>
+<li>A multi-tenant architecture with clear separation between GLOBAL and TENANT-level data</li>
+<li>Role-based access control for listeners, tenant admins, and platform super admins</li>
+<li>Consistent, well-documented REST APIs for mobile and web clients</li>
+<li>Extensible modules for songs, playlists, requests, billing, and operational workflows</li>
+</ul>
+<p>The main objectives are to:</p>
+<ul>
+<li>Make onboarding new tenants simple and predictable</li>
+<li>Guarantee strong tenant isolation and auditable access patterns</li>
+<li>Keep the API surface consistent, discoverable, and easy to integrate with</li>
+<li>Leave room for future features like analytics, recommendations, and third-party integrations</li>
+</ul>
+<h3 id="functional-documentation">Functional documentation<a class="headerlink" href="#functional-documentation" title="Permanent link">¶</a></h3>
+<p>The functional documentation focuses on user roles, capabilities, and end-to-end journeys:</p>
+<ul>
+<li><strong>LISTENER</strong>: Interacts with playlists and song requests.</li>
+<li><strong>ADMIN</strong>: Manages a single tenant’s catalogs, playlists, and operational workflows.</li>
+<li><strong>SUPER_ADMIN</strong>: Manages the overall platform, tenants, and global settings.</li>
+</ul>
+<p>See <a href="functional-docs/">Functional Documentation</a> for full details on behavior, edge cases, and flows.</p>
 <h3 id="technical-documentation">Technical documentation<a class="headerlink" href="#technical-documentation" title="Permanent link">¶</a></h3>
 <table>
 <thead>
