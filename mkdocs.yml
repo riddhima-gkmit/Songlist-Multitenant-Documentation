@@ -39,12 +39,14 @@ markdown_extensions:
 nav:
   - Home:
       - Project Overview: index.md
+
   - Functional Documentation: functional-docs.md
+
   - Technical Documentation:
-      - Tech Stack: technical/tech-stack.md
-      - Schema Design: technical/schema-design.md
-      - Authentication & Authorization: technical/authentication.md
-      - API Design: technical/api-design.md
-      - Core Modules: technical/core-modules.md
       - Developer Setup: technical/developer-setup.md
+      - Tech Stack: technical/tech-stack.md
+      - Authentication & Authorization: technical/authentication.md
+      - Schema Design: technical/schema-design.md
+      - Core Modules: technical/core-modules.md
+      - API Design: technical/api-design.md
       - Conventions & Guardrails: technical/conventions.md
