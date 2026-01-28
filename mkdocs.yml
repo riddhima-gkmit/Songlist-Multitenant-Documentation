@@ -1,0 +1,50 @@
+site_name: SongList Documentation
+site_description: SongList Backend – Multi-Tenant Music CMS API
+site_author: Riddhima Kushwah
+site_url: 
+repo_url: https://github.com/riddhima-gkmit/SongList-Backend.git
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - toc.integrate
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+
+plugins:
+  - search
+  - mermaid2
+  - glightbox
+
+markdown_extensions:
+  - tables
+  - attr_list
+  - admonition
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.tabbed
+  - toc:
+      permalink: true
+
+nav:
+  - Home:
+      - Project Overview: index.md
+  - Functional Documentation: functional-docs.md
+  - Technical Documentation:
+      - Tech Stack: technical/tech-stack.md
+      - Schema Design: technical/schema-design.md
+      - Authentication & Authorization: technical/authentication.md
+      - API Design: technical/api-design.md
+      - Core Modules: technical/core-modules.md
+      - Developer Setup: technical/developer-setup.md
+      - Conventions & Guardrails: technical/conventions.md
