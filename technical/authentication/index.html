@@ -1586,7 +1586,10 @@
 <ul>
 <li><strong>Endpoint</strong>: <code>POST /api/v1/tenant/{tenant_id}/auth/verify-email/</code></li>
 <li><strong>Access</strong>: All users (unverified accounts)</li>
-<li><strong>Process</strong>: Verify account using OTP from email</li>
+<li><strong>Process</strong>:</li>
+<li>User provides OTP received via email</li>
+<li>OTP verified against cache</li>
+<li>Account marked as verified</li>
 </ul>
 <h3 id="login-two-step-otp">Login (Two-Step OTP)<a class="headerlink" href="#login-two-step-otp" title="Permanent link">¶</a></h3>
 <p><strong>Step 1: Request OTP</strong>
@@ -1615,18 +1618,28 @@
 <ul>
 <li><strong>Endpoint</strong>: <code>POST /api/v1/token/refresh/</code></li>
 <li><strong>Access</strong>: All authenticated users</li>
-<li><strong>Process</strong>: Refresh token exchanged for new access token</li>
+<li><strong>Process</strong>:</li>
+<li>User provides valid refresh token</li>
+<li>New access token issued</li>
+<li>Old refresh token blacklisted (token rotation)</li>
 <li><strong>Token Rotation</strong>: Enabled (old refresh token blacklisted)</li>
 </ul>
 <h3 id="password-reset">Password Reset<a class="headerlink" href="#password-reset" title="Permanent link">¶</a></h3>
 <p><strong>Step 1: Request Reset OTP</strong>
 - <strong>Endpoint</strong>: <code>POST /api/v1/tenant/{tenant_id}/auth/password-reset/</code>
 - <strong>Access</strong>: All users
-- <strong>Process</strong>: OTP sent to email</p>
+- <strong>Process</strong>:
+  1. User requests password reset with email/username
+  2. OTP sent to registered email
+  3. OTP cached in Redis</p>
 <p><strong>Step 2: Confirm New Password</strong>
 - <strong>Endpoint</strong>: <code>POST /api/v1/tenant/{tenant_id}/auth/password-reset/confirm/</code>
 - <strong>Access</strong>: All users
-- <strong>Process</strong>: New password set with OTP verification</p>
+- <strong>Process</strong>:
+  1. User provides OTP and new password
+  2. OTP verified against cache
+  3. New password set
+  4. OTP invalidated</p>
 <h3 id="change-password">Change Password<a class="headerlink" href="#change-password" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Endpoint</strong>: <code>POST /api/v1/users/me/change-password/</code></li>
@@ -1637,71 +1650,89 @@
 <ul>
 <li><strong>Endpoint</strong>: <code>POST /api/v1/auth/logout/</code></li>
 <li><strong>Access</strong>: All authenticated users</li>
-<li><strong>Process</strong>: Refresh token blacklisted, access token denylisted</li>
+<li><strong>Process</strong>:</li>
+<li>Refresh token blacklisted</li>
+<li>Access token denylisted</li>
 </ul>
 <hr>
 <h2 id="permission-classes">Permission Classes<a class="headerlink" href="#permission-classes" title="Permanent link">¶</a></h2>
 <h3 id="allowany">AllowAny<a class="headerlink" href="#allowany" title="Permanent link">¶</a></h3>
-<p>Public access for:
-- Registration
-- Email verification
-- Login (OTP request &amp; verify)
-- Password reset
-- Resend verification</p>
+<p>Public access for:</p>
+<ul>
+<li>Registration</li>
+<li>Email verification</li>
+<li>Login (OTP request &amp; verify)</li>
+<li>Password reset</li>
+<li>Resend verification</li>
+</ul>
 <h3 id="isauthenticated">IsAuthenticated<a class="headerlink" href="#isauthenticated" title="Permanent link">¶</a></h3>
-<p>Logged-in users only. Used for:
-- Profile management
-- Change password
-- Songs, playlists, genres
-- Tenant-song links
-- Song requests</p>
+<p>Logged-in users only. Used for:</p>
+<ul>
+<li>Profile management</li>
+<li>Change password</li>
+<li>Songs, playlists, genres</li>
+<li>Tenant-song links</li>
+<li>Song requests</li>
+</ul>
 <h3 id="issuperadmin">IsSuperAdmin<a class="headerlink" href="#issuperadmin" title="Permanent link">¶</a></h3>
-<p>Platform management only. Used for:
-- Tenant CRUD (except GET detail)
-- Activate/deactivate tenants
-- Genre CRUD
-- Admin listing
-- Payment/subscription listing</p>
+<p>Platform management only. Used for:</p>
+<ul>
+<li>Tenant CRUD (except GET detail)</li>
+<li>Activate/deactivate tenants</li>
+<li>Genre CRUD</li>
+<li>Admin listing</li>
+<li>Payment/subscription listing</li>
+</ul>
 <h3 id="isadmin">IsAdmin<a class="headerlink" href="#isadmin" title="Permanent link">¶</a></h3>
-<p>Tenant data management. Used for:
-- User management
-- Tenant-song links
-- Song request review
-- User deletion/restoration
-- Bulk song operations
-- Payment link creation</p>
+<p>Tenant data management. Used for:</p>
+<ul>
+<li>User management</li>
+<li>Tenant-song links</li>
+<li>Song request review</li>
+<li>User deletion/restoration</li>
+<li>Bulk song operations</li>
+<li>Payment link creation</li>
+</ul>
 <h3 id="isadminorsuperadmin">IsAdminOrSuperAdmin<a class="headerlink" href="#isadminorsuperadmin" title="Permanent link">¶</a></h3>
 <p>Admin or Super Admin access. Used for:
 - User creation/list
 - Subscription status
 - Tenant detail GET</p>
 <h3 id="isowneroradmin">IsOwnerOrAdmin<a class="headerlink" href="#isowneroradmin" title="Permanent link">¶</a></h3>
-<p>Object-level permission:
-- ADMIN can access any object in their tenant
-- Owner can access their own object
-- Blocks SUPER_ADMIN from tenant data</p>
+<p>Object-level permission:</p>
+<ul>
+<li>ADMIN can access any object in their tenant</li>
+<li>Owner can access their own object</li>
+<li>Blocks SUPER_ADMIN from tenant data</li>
+</ul>
 <p>Used for: Playlist detail operations</p>
 <h3 id="istenantuser">IsTenantUser<a class="headerlink" href="#istenantuser" title="Permanent link">¶</a></h3>
-<p>Tenant members only (blocks SUPER_ADMIN). Used for:
-- Song request endpoints</p>
+<p>Tenant members only (blocks SUPER_ADMIN). Used for:</p>
+<ul>
+<li>Song request endpoints</li>
+</ul>
 <hr>
 <h2 id="user-deletion-restoration">User Deletion &amp; Restoration<a class="headerlink" href="#user-deletion-restoration" title="Permanent link">¶</a></h2>
 <h3 id="self-deletion">Self-Deletion<a class="headerlink" href="#self-deletion" title="Permanent link">¶</a></h3>
-<p><strong>Process</strong>:
-1. User calls <code>DELETE /api/v1/users/me/</code>
-2. <code>deleted_by</code> set to user's own ID
-3. User's content (songs, playlists) marked as deleted
-4. User can re-register via <code>/api/v1/tenant/{tenant_id}/auth/register/</code>
-5. Account automatically restored on re-registration
-6. <strong>Content stays deleted</strong> (not restored)</p>
+<p><strong>Process</strong>:</p>
+<ol>
+<li>User calls <code>DELETE /api/v1/users/me/</code></li>
+<li><code>deleted_by</code> set to user's own ID</li>
+<li>User's content (songs, playlists) marked as deleted</li>
+<li>User can re-register via <code>/api/v1/tenant/{tenant_id}/auth/register/</code></li>
+<li>Account automatically restored on re-registration</li>
+<li><strong>Content stays deleted</strong> (not restored)</li>
+</ol>
 <p><strong>Access</strong>: LISTENER only (ADMIN and SUPER_ADMIN blocked for safety)</p>
 <h3 id="admin-deletion">Admin Deletion<a class="headerlink" href="#admin-deletion" title="Permanent link">¶</a></h3>
-<p><strong>Process</strong>:
-1. ADMIN calls <code>DELETE /api/v1/users/{user_id}/delete/</code>
-2. <code>deleted_by</code> set to admin's ID
-3. User's active songs/playlists marked as deleted
-4. User blocked from re-registration
-5. Registration attempt returns: "Your account has been deleted by admin. Please contact support."</p>
+<p><strong>Process</strong>:</p>
+<ol>
+<li>ADMIN calls <code>DELETE /api/v1/users/{user_id}/delete/</code></li>
+<li><code>deleted_by</code> set to admin's ID</li>
+<li>User's active songs/playlists marked as deleted</li>
+<li>User blocked from re-registration</li>
+<li>Registration attempt returns: "Your account has been deleted by admin. Please contact support."</li>
+</ol>
 <p><strong>Rules</strong>:
 - Cannot delete themselves
 - Cannot delete other ADMIN or SUPER_ADMIN users
