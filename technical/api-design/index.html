@@ -1437,10 +1437,12 @@
 </tbody>
 </table>
 <p><strong>Query params (GET /songs/):</strong> <code>page</code>, <code>page_size</code>, <code>title</code>, <code>artist</code>, <code>genre</code>, <code>album</code> (all optional filters).</p>
-<p><strong>Data separation:</strong>
-- LISTENER: No direct access; use <code>/api/v1/tenant/songs/</code>.
-- ADMIN: TENANT songs only (visibility=TENANT, tenant=user's tenant).
-- SUPER_ADMIN: GLOBAL songs only (visibility=GLOBAL).</p>
+<p><strong>Data separation:</strong></p>
+<ul>
+<li>LISTENER: No direct access; use <code>/api/v1/tenant/songs/</code>.</li>
+<li>ADMIN: TENANT songs only (visibility=TENANT, tenant=user's tenant).</li>
+<li>SUPER_ADMIN: GLOBAL songs only (visibility=GLOBAL).</li>
+</ul>
 <hr>
 <h3 id="6-song-request-apis">6. Song Request APIs<a class="headerlink" href="#6-song-request-apis" title="Permanent link">¶</a></h3>
 <table>
