@@ -1592,22 +1592,26 @@
 <li>Account marked as verified</li>
 </ul>
 <h3 id="login-two-step-otp">Login (Two-Step OTP)<a class="headerlink" href="#login-two-step-otp" title="Permanent link">¶</a></h3>
-<p><strong>Step 1: Request OTP</strong>
-- <strong>Endpoint</strong>: <code>POST /api/v1/tenant/{tenant_id}/auth/login/</code>
-- <strong>Access</strong>: All verified users
-- <strong>Process</strong>: 
-  1. User provides username/email and password
-  2. Password verified
-  3. OTP sent to email
-  4. OTP cached in Redis</p>
-<p><strong>Step 2: Verify OTP</strong>
-- <strong>Endpoint</strong>: <code>POST /api/v1/tenant/{tenant_id}/auth/login/verify-otp/</code>
-- <strong>Access</strong>: All verified users
-- <strong>Process</strong>:
-  1. User provides OTP
-  2. OTP verified against cache
-  3. JWT access and refresh tokens issued
-  4. OTP invalidated</p>
+<p><strong>Step 1: Request OTP</strong></p>
+<ul>
+<li><strong>Endpoint</strong>: <code>POST /api/v1/tenant/{tenant_id}/auth/login/</code></li>
+<li><strong>Access</strong>: All verified users</li>
+<li><strong>Process</strong>: </li>
+<li>User provides username/email and password</li>
+<li>Password verified</li>
+<li>OTP sent to email</li>
+<li>OTP cached in Redis</li>
+</ul>
+<p><strong>Step 2: Verify OTP</strong></p>
+<ul>
+<li><strong>Endpoint</strong>: <code>POST /api/v1/tenant/{tenant_id}/auth/login/verify-otp/</code></li>
+<li><strong>Access</strong>: All verified users</li>
+<li><strong>Process</strong>:</li>
+<li>User provides OTP</li>
+<li>OTP verified against cache</li>
+<li>JWT access and refresh tokens issued</li>
+<li>OTP invalidated</li>
+</ul>
 <h3 id="super-admin-login">Super Admin Login<a class="headerlink" href="#super-admin-login" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Step 1</strong>: <code>POST /api/v1/auth/super-admin/login/</code> (no tenant required)</li>
@@ -1625,21 +1629,25 @@
 <li><strong>Token Rotation</strong>: Enabled (old refresh token blacklisted)</li>
 </ul>
 <h3 id="password-reset">Password Reset<a class="headerlink" href="#password-reset" title="Permanent link">¶</a></h3>
-<p><strong>Step 1: Request Reset OTP</strong>
-- <strong>Endpoint</strong>: <code>POST /api/v1/tenant/{tenant_id}/auth/password-reset/</code>
-- <strong>Access</strong>: All users
-- <strong>Process</strong>:
-  1. User requests password reset with email/username
-  2. OTP sent to registered email
-  3. OTP cached in Redis</p>
-<p><strong>Step 2: Confirm New Password</strong>
-- <strong>Endpoint</strong>: <code>POST /api/v1/tenant/{tenant_id}/auth/password-reset/confirm/</code>
-- <strong>Access</strong>: All users
-- <strong>Process</strong>:
-  1. User provides OTP and new password
-  2. OTP verified against cache
-  3. New password set
-  4. OTP invalidated</p>
+<p><strong>Step 1: Request Reset OTP</strong></p>
+<ul>
+<li><strong>Endpoint</strong>: <code>POST /api/v1/tenant/{tenant_id}/auth/password-reset/</code></li>
+<li><strong>Access</strong>: All users</li>
+<li><strong>Process</strong>:</li>
+<li>User requests password reset with email/username</li>
+<li>OTP sent to registered email</li>
+<li>OTP cached in Redis</li>
+</ul>
+<p><strong>Step 2: Confirm New Password</strong></p>
+<ul>
+<li><strong>Endpoint</strong>: <code>POST /api/v1/tenant/{tenant_id}/auth/password-reset/confirm/</code></li>
+<li><strong>Access</strong>: All users</li>
+<li><strong>Process</strong>:</li>
+<li>User provides OTP and new password</li>
+<li>OTP verified against cache</li>
+<li>New password set</li>
+<li>OTP invalidated</li>
+</ul>
 <h3 id="change-password">Change Password<a class="headerlink" href="#change-password" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>Endpoint</strong>: <code>POST /api/v1/users/me/change-password/</code></li>
@@ -1740,15 +1748,19 @@
 <h3 id="admin-restoration">Admin Restoration<a class="headerlink" href="#admin-restoration" title="Permanent link">¶</a></h3>
 <p><strong>Endpoint</strong>: <code>POST /api/v1/users/{user_id}/restore/</code></p>
 <p><strong>Options</strong>:</p>
-<p><strong>Without Data</strong> (<code>restore_data=false</code>):
-- Account restored (user can login)
-- All content stays deleted</p>
-<p><strong>With Data</strong> (<code>restore_data=true</code>):
-- Account restored
-- ALL deleted songs/playlists restored <strong>EXCEPT</strong> items user deleted themselves
-- Includes content deleted by admin during user deletion
-- Includes content deleted by other admins
-- Excludes content where <code>deleted_by == user_id</code></p>
+<p><strong>Without Data</strong> (<code>restore_data=false</code>):</p>
+<ul>
+<li>Account restored (user can login)</li>
+<li>All content stays deleted</li>
+</ul>
+<p><strong>With Data</strong> (<code>restore_data=true</code>):</p>
+<ul>
+<li>Account restored</li>
+<li>ALL deleted songs/playlists restored <strong>EXCEPT</strong> items user deleted themselves</li>
+<li>Includes content deleted by admin during user deletion</li>
+<li>Includes content deleted by other admins</li>
+<li>Excludes content where <code>deleted_by == user_id</code></li>
+</ul>
 <p><strong>Access:</strong> ADMIN (tenant-scoped, any deleted user in tenant); SUPER_ADMIN (deleted admins only, platform-wide).</p>
 <hr>
 <h2 id="data-isolation-summary">Data Isolation Summary<a class="headerlink" href="#data-isolation-summary" title="Permanent link">¶</a></h2>
