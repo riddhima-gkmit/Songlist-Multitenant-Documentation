@@ -911,19 +911,25 @@ Endpoints: <a href="../api-design/">API Design</a>.</p>
 <hr>
 <h2 id="users">Users<a class="headerlink" href="#users" title="Permanent link">¶</a></h2>
 <p><strong>Purpose:</strong> Authentication, profile management, and tenant user administration.</p>
-<p><strong>Who can access:</strong>
-- <strong>LISTENER:</strong> Own profile only; self-delete allowed.
-- <strong>ADMIN:</strong> Tenant users (full CRUD); delete/restore LISTENER only; cannot delete self or other admins.
-- <strong>SUPER_ADMIN:</strong> User count only (no PII); create ADMIN for any tenant; list all admins.</p>
-<p><strong>Data scope:</strong>
-- Own (LISTENER)
-- Tenant (ADMIN)
-- Platform count / admin list (SUPER_ADMIN)</p>
-<p><strong>Business rules:</strong>
-- Email unique per tenant (LISTENER/ADMIN); globally unique for SUPER_ADMIN.
-- LISTENER/ADMIN must have a tenant; SUPER_ADMIN must not.
-- All created users must verify email before login.
-- Password change blacklists all access and refresh tokens.</p>
+<p><strong>Who can access:</strong></p>
+<ul>
+<li><strong>LISTENER:</strong> Own profile only; self-delete allowed.</li>
+<li><strong>ADMIN:</strong> Tenant users (full CRUD); delete/restore LISTENER only; cannot delete self or other admins.</li>
+<li><strong>SUPER_ADMIN:</strong> User count only (no PII); create ADMIN for any tenant; list all admins.</li>
+</ul>
+<p><strong>Data scope:</strong></p>
+<ul>
+<li>Own (LISTENER)</li>
+<li>Tenant (ADMIN)</li>
+<li>Platform count / admin list (SUPER_ADMIN)</li>
+</ul>
+<p><strong>Business rules:</strong></p>
+<ul>
+<li>Email unique per tenant (LISTENER/ADMIN); globally unique for SUPER_ADMIN.</li>
+<li>LISTENER/ADMIN must have a tenant; SUPER_ADMIN must not.</li>
+<li>All created users must verify email before login.</li>
+<li>Password change blacklists all access and refresh tokens.</li>
+</ul>
 <hr>
 <h2 id="tenants">Tenants<a class="headerlink" href="#tenants" title="Permanent link">¶</a></h2>
 <p><strong>Purpose:</strong> Multi-tenant organizations. Managed by SUPER_ADMIN; ADMIN can view their tenant only.</p>
