@@ -1,7 +1,7 @@
 site_name: SongList Documentation
 site_description: SongList Backend – Multi-Tenant Music CMS API
 site_author: Riddhima Kushwah
-site_url: 
+site_url: https://riddhima-gkmit.github.io/Songlist-Multitenant-Documentation/functional-docs/
 repo_url: https://github.com/riddhima-gkmit/SongList-Backend.git
 
 theme:
