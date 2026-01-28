@@ -1,0 +1,1896 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="SongList Backend – Multi-Tenant Music CMS API">
+      
+      
+        <meta name="author" content="Riddhima Kushwah">
+      
+      
+      
+        <link rel="prev" href="../authentication/">
+      
+      
+        <link rel="next" href="../core-modules/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>API Design - SongList Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-design" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="SongList Documentation" class="md-header__button md-logo" aria-label="SongList Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SongList Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API Design
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-hidden="true" type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/riddhima-gkmit/SongList-Backend.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../functional-docs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Functional Documentation
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../tech-stack/" class="md-tabs__link">
+          
+  
+  
+  Technical Documentation
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SongList Documentation" class="md-nav__button md-logo" aria-label="SongList Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    SongList Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/riddhima-gkmit/SongList-Backend.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1">
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../functional-docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Functional Documentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tech-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tech Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schema-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schema Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication &amp; Authorization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Design
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#base-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Base Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rest-conventions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        REST Conventions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-grouping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Grouping
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API Grouping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-authentication-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Authentication APIs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-user-management-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. User Management APIs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-tenant-management-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Tenant Management APIs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-tenant-song-link-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Tenant-Song Link APIs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-song-management-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Song Management APIs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-song-request-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Song Request APIs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-playlist-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Playlist APIs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8-genre-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Genre APIs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#9-payment-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Payment APIs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data-scope-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data Scope Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Scope Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#own-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Own Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tenant-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tenant Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#global-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#object-ownership-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Object Ownership Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Handling
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pagination" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pagination
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../developer-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../conventions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions &amp; Guardrails
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="api-design">API Design<a class="headerlink" href="#api-design" title="Permanent link">¶</a></h1>
+<p>The SongList API follows <strong>RESTful principles</strong> with a single base URL. All responses are <strong>JSON</strong>. Protected endpoints require <strong>JWT Bearer</strong> authentication. Access is controlled by <strong>permissions</strong> and <strong>queryset filtering</strong>, not by role-specific URLs.</p>
+<p><strong>On this page</strong></p>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#base-configuration">Base Configuration</a></td>
+<td>Base URL, auth</td>
+</tr>
+<tr>
+<td><a href="#api-grouping">API Grouping</a></td>
+<td>Auth, users, tenants, songs, etc.</td>
+</tr>
+<tr>
+<td><a href="#data-scope-rules">Data Scope Rules</a></td>
+<td>Own, tenant, global</td>
+</tr>
+<tr>
+<td><a href="#error-handling">Error Handling</a></td>
+<td>401, 403, 404, etc.</td>
+</tr>
+<tr>
+<td><a href="#pagination">Pagination</a></td>
+<td>Page, page_size</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="base-configuration">Base Configuration<a class="headerlink" href="#base-configuration" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Base URL:</strong> <code>http://localhost:8000/api/v1</code></li>
+<li><strong>Authentication:</strong> JWT (Access &amp; Refresh Tokens)</li>
+<li><strong>Core Rule:</strong> Same resource → same endpoint; different access → permissions + queryset filtering</li>
+</ul>
+<p>No role-specific or admin-specific URLs are used for resources.</p>
+<hr>
+<h2 id="rest-conventions">REST Conventions<a class="headerlink" href="#rest-conventions" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Resource-Based Endpoints:</strong> CRUD operations on nouns (users, songs, playlists, etc.)</li>
+<li><strong>HTTP Methods:</strong> GET (list/retrieve), POST (create), PATCH (update), DELETE (delete)</li>
+<li><strong>Ids:</strong> UUIDs for all primary keys</li>
+<li><strong>Pagination:</strong> List endpoints support pagination (<code>page</code>, <code>page_size</code>)</li>
+</ul>
+<hr>
+<h2 id="api-grouping">API Grouping<a class="headerlink" href="#api-grouping" title="Permanent link">¶</a></h2>
+<h3 id="1-authentication-apis">1. Authentication APIs<a class="headerlink" href="#1-authentication-apis" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th>Access</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/tenant/{tenant_id}/auth/register/</code></td>
+<td>LISTENER only</td>
+<td>Self-deleted restoration</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/tenant/{tenant_id}/auth/verify-email/</code></td>
+<td>All</td>
+<td>Verify OTP</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/tenant/{tenant_id}/auth/resend-verification/</code></td>
+<td>All</td>
+<td>Resend OTP</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/tenant/{tenant_id}/auth/login/</code></td>
+<td>All</td>
+<td>Step 1: Request OTP</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/tenant/{tenant_id}/auth/login/verify-otp/</code></td>
+<td>All</td>
+<td>Step 2: Verify OTP, get JWT</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/super-admin/login/</code></td>
+<td>SUPER_ADMIN</td>
+<td>Step 1</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/super-admin/login/verify-otp/</code></td>
+<td>SUPER_ADMIN</td>
+<td>Step 2</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/auth/logout/</code></td>
+<td>Authenticated</td>
+<td>Blacklist tokens</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/token/refresh/</code></td>
+<td>All</td>
+<td>Refresh access token</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/tenant/{tenant_id}/auth/password-reset/</code></td>
+<td>All</td>
+<td>Step 1</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/tenant/{tenant_id}/auth/password-reset/confirm/</code></td>
+<td>All</td>
+<td>Step 2</td>
+</tr>
+</tbody>
+</table>
+<p><em>Permissions:</em> AllowAny for auth flows; IsAuthenticated for logout.</p>
+<hr>
+<h3 id="2-user-management-apis">2. User Management APIs<a class="headerlink" href="#2-user-management-apis" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th style="text-align: center;">LISTENER</th>
+<th style="text-align: center;">ADMIN</th>
+<th style="text-align: center;">SUPER_ADMIN</th>
+<th>Data Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/users/me/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>Own profile</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/users/me/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>Own profile</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/users/me/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td>Self-delete</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/users/me/change-password/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>Own password</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/users/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>Tenant list / Count only</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/users/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>Create LISTENER / ADMIN</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/users/{id}/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>View LISTENER / ADMIN</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/users/{id}/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>Update LISTENER / ADMIN</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/users/{id}/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>Delete LISTENER / ADMIN</td>
+</tr>
+</tbody>
+</table>
+<p><em>Query params (GET /users/):</em> <code>page</code>, <code>page_size</code>, <code>is_active</code>, <code>name</code>, <code>email</code>.</p>
+<p><strong>User Deletion &amp; Restoration:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th>Access</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/users/{user_id}/restore/</code></td>
+<td>ADMIN / SUPER ADMIN</td>
+<td>Body: <code>{"restore_data": true\|false}</code></td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/users/deleted/</code></td>
+<td>ADMIN / SUPER ADMIN</td>
+<td>ADMIN: tenant deleted users; SUPER_ADMIN: deleted admins</td>
+</tr>
+</tbody>
+</table>
+<p><em>Query params (GET /users/deleted/):</em> <code>page</code>, <code>page_size</code>, <code>deletion_type</code> (<code>self</code> | <code>admin</code> | <code>super admin</code>).</p>
+<p><em>Data filtering:</em> ADMIN sees tenant users (full details); SUPER_ADMIN sees count only (no PII) for GET /users/.</p>
+<hr>
+<h3 id="3-tenant-management-apis">3. Tenant Management APIs<a class="headerlink" href="#3-tenant-management-apis" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th style="text-align: center;">LISTENER</th>
+<th style="text-align: center;">ADMIN</th>
+<th style="text-align: center;">SUPER_ADMIN</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/tenants/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td>List all</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/tenants/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td>Create</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/tenants/{id}/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>Details (ADMIN read-only)</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/tenants/{id}/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td>Update</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/tenants/{id}/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td>Delete if no users</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/tenants/{id}/activate/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td>Activate</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/tenants/{id}/deactivate/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td>Deactivate</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/super-admin/admins/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td>All admins</td>
+</tr>
+</tbody>
+</table>
+<p><em>Query params (GET /tenants/):</em> <code>page</code>, <code>page_size</code>.</p>
+<p><em>Query params (GET /super-admin/admins/):</em> <code>page</code>, <code>page_size</code>, <code>is_active</code>, <code>name</code>, <code>email</code>, <code>tenant_id</code> (comma-separated UUIDs).</p>
+<p><em>Permissions:</em> IsSuperAdmin for mutate; IsAdminOrSuperAdmin for GET detail.</p>
+<hr>
+<h3 id="4-tenant-song-link-apis">4. Tenant-Song Link APIs<a class="headerlink" href="#4-tenant-song-link-apis" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th style="text-align: center;">LISTENER</th>
+<th style="text-align: center;">ADMIN</th>
+<th style="text-align: center;">SUPER_ADMIN</th>
+<th>Data Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/tenant/songs/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own tenant</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/tenant/songs/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own tenant</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/tenant/songs/{id}/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own tenant</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/tenant/songs/{id}/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own tenant</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/songs/bulk-add/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Bulk add to tenant</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/tenant/songs/bulk-delete/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Bulk delete links</td>
+</tr>
+</tbody>
+</table>
+<p><em>Query params (GET /tenant/songs/):</em> <code>page</code>, <code>page_size</code>, <code>title</code>, <code>artist</code>, <code>genre</code>, <code>album</code> (all optional filters).</p>
+<p>LISTENER sees approved tenant songs only; ADMIN sees all in tenant. SUPER_ADMIN has no access.</p>
+<hr>
+<h3 id="5-song-management-apis">5. Song Management APIs<a class="headerlink" href="#5-song-management-apis" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th style="text-align: center;">LISTENER</th>
+<th style="text-align: center;">ADMIN</th>
+<th style="text-align: center;">SUPER_ADMIN</th>
+<th>Data Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/songs/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>Tenant / GLOBAL</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/songs/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>TENANT / GLOBAL</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/songs/{id}/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>Tenant / GLOBAL</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/songs/{id}/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>TENANT / GLOBAL</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/songs/{id}/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>TENANT / GLOBAL</td>
+</tr>
+</tbody>
+</table>
+<p><em>Query params (GET /songs/):</em> <code>page</code>, <code>page_size</code>, <code>title</code>, <code>artist</code>, <code>genre</code>, <code>album</code> (all optional filters).</p>
+<p><em>Data separation:</em>
+- LISTENER: No direct access; use <code>/api/v1/tenant/songs/</code>.
+- ADMIN: TENANT songs only (visibility=TENANT, tenant=user's tenant).
+- SUPER_ADMIN: GLOBAL songs only (visibility=GLOBAL).</p>
+<hr>
+<h3 id="6-song-request-apis">6. Song Request APIs<a class="headerlink" href="#6-song-request-apis" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th style="text-align: center;">LISTENER</th>
+<th style="text-align: center;">ADMIN</th>
+<th style="text-align: center;">SUPER_ADMIN</th>
+<th>Data Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/song-requests/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own / Tenant</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/song-requests/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own / Any user (tenant)</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/song-requests/{id}/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own / Tenant</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/song-requests/{id}/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own / Tenant</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/song-requests/{id}/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own / Tenant</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/song-requests/{id}/review/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Approve/Reject</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/song-requests/{id}/fulfill/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Fulfill request</td>
+</tr>
+</tbody>
+</table>
+<p><em>Query params (GET /song-requests/):</em> <code>page</code>, <code>page_size</code>, <code>status</code> (ADMIN only; filter by request status).</p>
+<p><em>Permission:</em> IsAuthenticated + IsTenantUser. ADMIN can create requests for any tenant user via <code>user_id</code>.</p>
+<hr>
+<h3 id="7-playlist-apis">7. Playlist APIs<a class="headerlink" href="#7-playlist-apis" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th style="text-align: center;">LISTENER</th>
+<th style="text-align: center;">ADMIN</th>
+<th style="text-align: center;">SUPER_ADMIN</th>
+<th>Data Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/playlists/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own / Tenant</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/playlists/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own / Any user (tenant)</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/playlists/{id}/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own / Tenant</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/playlists/{id}/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own / Tenant</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/playlists/{id}/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own / Tenant</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/playlists/{id}/songs/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own / Tenant</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/playlists/{id}/songs/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own / Tenant</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/playlists/{id}/songs/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Own / Tenant</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/playlists/{playlist_id}/songs/{song_id}/</code></td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Remove song</td>
+</tr>
+</tbody>
+</table>
+<p><em>Query params (GET /playlists/):</em> <code>page</code>, <code>page_size</code>. <em>Query params (GET /playlists/{id}/songs/):</em> <code>page</code>, <code>page_size</code>.</p>
+<p><em>Permission:</em> IsAuthenticated; IsOwnerOrAdmin for detail. SUPER_ADMIN has no access.</p>
+<hr>
+<h3 id="8-genre-apis">8. Genre APIs<a class="headerlink" href="#8-genre-apis" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th style="text-align: center;">LISTENER</th>
+<th style="text-align: center;">ADMIN</th>
+<th style="text-align: center;">SUPER_ADMIN</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/genres/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>Read-only</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/genres/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td>Create</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/genres/{id}/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>Read-only</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td><code>/api/v1/genres/{id}/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td>Update</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><code>/api/v1/genres/{id}/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td>Only if no songs linked</td>
+</tr>
+</tbody>
+</table>
+<p><em>Query params (GET /genres/):</em> <code>page</code>, <code>page_size</code>.</p>
+<hr>
+<h3 id="9-payment-apis">9. Payment APIs<a class="headerlink" href="#9-payment-apis" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th style="text-align: center;">LISTENER</th>
+<th style="text-align: center;">ADMIN</th>
+<th style="text-align: center;">SUPER_ADMIN</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/payments/create-payment-link/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">❌</td>
+<td>Razorpay link</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/payments/subscription/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td style="text-align: center;">✅</td>
+<td>Tenant subscription</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><code>/api/v1/payments/webhook/razorpay/</code></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">—</td>
+<td>Public, signature verified</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/payments/super-admin/subscriptions/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td>All subscriptions</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><code>/api/v1/payments/super-admin/payments/</code></td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">✅</td>
+<td>All payments</td>
+</tr>
+</tbody>
+</table>
+<p><em>Query params (GET /payments/super-admin/subscriptions/):</em> <code>page</code>, <code>page_size</code>, <code>tenant_id</code>, <code>is_premium</code>.</p>
+<p><em>Query params (GET /payments/super-admin/payments/):</em> <code>page</code>, <code>page_size</code>, <code>tenant_id</code>, <code>status</code>.</p>
+<hr>
+<h2 id="data-scope-rules">Data Scope Rules<a class="headerlink" href="#data-scope-rules" title="Permanent link">¶</a></h2>
+<h3 id="own-data">Own Data<a class="headerlink" href="#own-data" title="Permanent link">¶</a></h3>
+<ul>
+<li>Profile (<code>/users/me/</code>), own playlists, own song requests.</li>
+<li>LISTENER-only: self-delete.</li>
+</ul>
+<h3 id="tenant-data">Tenant Data<a class="headerlink" href="#tenant-data" title="Permanent link">¶</a></h3>
+<ul>
+<li>Users, playlists, song requests, tenant-song links, TENANT songs.</li>
+<li>ADMIN: full CRUD within tenant. LISTENER: own resources only.</li>
+</ul>
+<h3 id="global-data">Global Data<a class="headerlink" href="#global-data" title="Permanent link">¶</a></h3>
+<ul>
+<li>Tenants, GLOBAL songs, genres, platform subscriptions/payments.</li>
+<li>SUPER_ADMIN only (except tenant detail GET for ADMIN).</li>
+</ul>
+<hr>
+<h2 id="object-ownership-rules">Object Ownership Rules<a class="headerlink" href="#object-ownership-rules" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>IsOwnerOrAdmin:</strong> Owner or ADMIN in same tenant can access. SUPER_ADMIN excluded from tenant objects.</li>
+<li><strong>Tenant Membership:</strong> All tenant-scoped access checks <code>user.tenant</code> vs object’s tenant.</li>
+<li><strong>Cross-Tenant:</strong> ADMIN cannot access other tenants’ data.</li>
+</ul>
+<hr>
+<h2 id="error-handling">Error Handling<a class="headerlink" href="#error-handling" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>401 Unauthorized</strong></td>
+<td>Missing or invalid token</td>
+</tr>
+<tr>
+<td><strong>403 Forbidden</strong></td>
+<td>Valid token but insufficient permissions</td>
+</tr>
+<tr>
+<td><strong>404 Not Found</strong></td>
+<td>Resource does not exist or outside caller’s scope</td>
+</tr>
+<tr>
+<td><strong>400 Bad Request</strong></td>
+<td>Validation or malformed request</td>
+</tr>
+<tr>
+<td><strong>409 Conflict</strong></td>
+<td>Duplicate or constraint violation</td>
+</tr>
+<tr>
+<td><strong>500 Internal Server Error</strong></td>
+<td>Unexpected server error</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Prefer <strong>403</strong> when the user is authenticated but not allowed to perform the action.</li>
+<li>Use <strong>404</strong> when the resource is unknown or not in scope (no info leakage about existence).</li>
+</ul>
+<hr>
+<h2 id="pagination">Pagination<a class="headerlink" href="#pagination" title="Permanent link">¶</a></h2>
+<p>List endpoints use page-based pagination.</p>
+<ul>
+<li><strong>Query params:</strong> <code>page</code>, <code>page_size</code> (default/max per project settings).</li>
+<li><strong>Response:</strong> <code>count</code>, <code>page</code>, <code>page_size</code>, <code>next</code>, <code>previous</code>, <code>data</code>.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer">
+        
+          
+          <a href="../authentication/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Authentication &amp; Authorization">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Authentication &amp; Authorization
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../core-modules/" class="md-footer__link md-footer__link--next" aria-label="Next: Core Modules">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Core Modules
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "toc.integrate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

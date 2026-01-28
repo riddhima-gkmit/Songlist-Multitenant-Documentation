@@ -1,0 +1,1233 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="SongList Backend – Multi-Tenant Music CMS API">
+      
+      
+        <meta name="author" content="Riddhima Kushwah">
+      
+      
+      
+        <link rel="prev" href="../developer-setup/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Conventions &amp; Guardrails - SongList Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#conventions-guardrails" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="SongList Documentation" class="md-header__button md-logo" aria-label="SongList Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SongList Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Conventions &amp; Guardrails
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo" aria-hidden="true" type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/riddhima-gkmit/SongList-Backend.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../functional-docs/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Functional Documentation
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../tech-stack/" class="md-tabs__link">
+          
+  
+  
+  Technical Documentation
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SongList Documentation" class="md-nav__button md-logo" aria-label="SongList Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    SongList Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/riddhima-gkmit/SongList-Backend.git" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1">
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../functional-docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Functional Documentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tech-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tech Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schema-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schema Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../authentication/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Authentication &amp; Authorization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../core-modules/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Modules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../developer-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions &amp; Guardrails
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Conventions &amp; Guardrails
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tenant-isolation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tenant Isolation Rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#global-vs-tenant-resource-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GLOBAL vs TENANT Resource Rules
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="GLOBAL vs TENANT Resource Rules">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GLOBAL Resources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tenant-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TENANT Resources
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#song-visibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Song Visibility
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#role-boundaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Role Boundaries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Role Boundaries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#super_admin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SUPER_ADMIN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#admin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADMIN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listener" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LISTENER
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security Decisions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Decisions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#super_admin-and-tenant-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SUPER_ADMIN and Tenant Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#admin-self-deletion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Admin Self-Deletion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deletion-of-other-admins" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deletion of Other Admins
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user-creation-and-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User Creation and Verification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#password-change-and-sessions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Password Change and Sessions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#genre-and-tenant-deletion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Genre and Tenant Deletion
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design Philosophy
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="conventions-guardrails">Conventions &amp; Guardrails<a class="headerlink" href="#conventions-guardrails" title="Permanent link">¶</a></h1>
+<p>Rules and design choices that govern tenant isolation, resource scoping, roles, and security.</p>
+<p><strong>On this page</strong></p>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#tenant-isolation-rules">Tenant Isolation Rules</a></td>
+<td>Strict isolation, queryset filtering</td>
+</tr>
+<tr>
+<td><a href="#global-vs-tenant-resource-rules">GLOBAL vs TENANT Resource Rules</a></td>
+<td>Platform vs tenant data</td>
+</tr>
+<tr>
+<td><a href="#role-boundaries">Role Boundaries</a></td>
+<td>SUPER_ADMIN, ADMIN, LISTENER</td>
+</tr>
+<tr>
+<td><a href="#security-decisions">Security Decisions</a></td>
+<td>No tenant data for super admin, etc.</td>
+</tr>
+<tr>
+<td><a href="#design-philosophy">Design Philosophy</a></td>
+<td>Same endpoint, fail closed, soft deletes</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="tenant-isolation-rules">Tenant Isolation Rules<a class="headerlink" href="#tenant-isolation-rules" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Strict isolation:</strong> An ADMIN can <strong>never</strong> access data belonging to another tenant.</li>
+<li><strong>Tenant context:</strong> Tenant is determined by the authenticated user (<code>user.tenant</code>). LISTENER and ADMIN always have a tenant; SUPER_ADMIN does not.</li>
+<li><strong>URL-based tenant in auth:</strong> Tenant-scoped auth endpoints include <code>tenant_id</code> in the path (<code>/api/v1/tenant/{tenant_id}/auth/...</code>). The backend validates that the tenant exists and is active.</li>
+<li><strong>Queryset filtering:</strong> Tenant-scoped resources are filtered by <code>tenant</code> (or <code>user.tenant</code>) in views. Use tenant-aware managers where applicable (e.g. <code>User.objects</code> vs <code>User.all_users</code>).</li>
+<li><strong>No cross-tenant queries:</strong> Avoid any query that could return rows from multiple tenants for tenant-scoped resources.</li>
+</ul>
+<hr>
+<h2 id="global-vs-tenant-resource-rules">GLOBAL vs TENANT Resource Rules<a class="headerlink" href="#global-vs-tenant-resource-rules" title="Permanent link">¶</a></h2>
+<h3 id="global-resources">GLOBAL Resources<a class="headerlink" href="#global-resources" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Definition:</strong> Platform-level data shared across tenants or used only by platform administration.</li>
+<li><strong>Examples:</strong> GLOBAL songs, genres, tenants, platform-wide subscription/payment lists.</li>
+<li><strong>Who manages:</strong> SUPER_ADMIN only (except tenant detail GET, which ADMIN can do for own tenant).</li>
+<li><strong>Who can access:</strong> Varies by resource (e.g. ADMIN can read GLOBAL songs and genres; LISTENER cannot access genres).</li>
+</ul>
+<h3 id="tenant-resources">TENANT Resources<a class="headerlink" href="#tenant-resources" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Definition:</strong> Data that belongs to a single tenant.</li>
+<li><strong>Examples:</strong> TENANT songs, tenant-song links, playlists, song requests, tenant users.</li>
+<li><strong>Who manages:</strong> ADMIN (within own tenant); LISTENER (own data only).</li>
+<li><strong>Who can access:</strong> ADMIN for full tenant scope; LISTENER for own scope only. SUPER_ADMIN has <strong>no</strong> access to tenant resources.</li>
+</ul>
+<h3 id="song-visibility">Song Visibility<a class="headerlink" href="#song-visibility" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong><code>visibility</code> field:</strong> <code>GLOBAL</code> or <code>TENANT</code>.</li>
+<li><strong>GLOBAL songs:</strong> Created and managed by SUPER_ADMIN. Can be linked to tenants via tenant-song links by ADMIN.</li>
+<li><strong>TENANT songs:</strong> Created and managed by tenant ADMIN. Visible only within that tenant.</li>
+<li><strong>Enforcement:</strong> Implemented in song views and permissions (role-based filtering).</li>
+</ul>
+<hr>
+<h2 id="role-boundaries">Role Boundaries<a class="headerlink" href="#role-boundaries" title="Permanent link">¶</a></h2>
+<h3 id="super_admin">SUPER_ADMIN<a class="headerlink" href="#super_admin" title="Permanent link">¶</a></h3>
+<p><strong>Scope:</strong></p>
+<ul>
+<li>Platform only</li>
+<li>No tenant</li>
+</ul>
+<p><strong>Can:</strong></p>
+<ul>
+<li>Manage tenants</li>
+<li>Manage GLOBAL songs</li>
+<li>Manage genres</li>
+<li>Create ADMINs</li>
+<li>View platform metrics (user counts, subscriptions, payments)</li>
+<li>List all admins</li>
+</ul>
+<p><strong>Cannot:</strong></p>
+<ul>
+<li>Access any tenant-specific data (users, playlists, song requests, tenant-song links, TENANT songs)</li>
+<li>Access PII</li>
+</ul>
+<h3 id="admin">ADMIN<a class="headerlink" href="#admin" title="Permanent link">¶</a></h3>
+<p><strong>Scope:</strong></p>
+<ul>
+<li>Single tenant (<code>user.tenant</code>)</li>
+</ul>
+<p><strong>Can:</strong></p>
+<ul>
+<li>Full CRUD on tenant users (except delete self or other admins)</li>
+<li>Full CRUD on TENANT songs</li>
+<li>Full CRUD on tenant-song links</li>
+<li>Full CRUD on playlists</li>
+<li>Full CRUD on song requests</li>
+<li>Create payment links</li>
+<li>View tenant subscription</li>
+<li>View tenant details</li>
+</ul>
+<p><strong>Cannot:</strong></p>
+<ul>
+<li>Access other tenants</li>
+<li>Manage GLOBAL songs</li>
+<li>Manage genres</li>
+<li>Delete self</li>
+<li>Delete other ADMIN/SUPER_ADMIN users</li>
+</ul>
+<h3 id="listener">LISTENER<a class="headerlink" href="#listener" title="Permanent link">¶</a></h3>
+<p><strong>Scope:</strong></p>
+<ul>
+<li>Own data only within their tenant</li>
+</ul>
+<p><strong>Can:</strong></p>
+<ul>
+<li>Manage profile</li>
+<li>Manage own playlists</li>
+<li>Manage own song requests</li>
+<li>View approved tenant songs via <code>/api/v1/tenant/songs/</code></li>
+<li>Self-delete</li>
+</ul>
+<p><strong>Cannot:</strong></p>
+<ul>
+<li>Access <code>/api/v1/songs/</code> directly</li>
+<li>Access genres</li>
+<li>Manage other users</li>
+<li>Access other users’ playlists</li>
+</ul>
+<hr>
+<h2 id="security-decisions">Security Decisions<a class="headerlink" href="#security-decisions" title="Permanent link">¶</a></h2>
+<h3 id="super_admin-and-tenant-data">SUPER_ADMIN and Tenant Data<a class="headerlink" href="#super_admin-and-tenant-data" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Decision:</strong> SUPER_ADMIN has <strong>zero</strong> access to tenant data.</li>
+<li><strong>Rationale:</strong> Reduces attack surface and enforces separation between platform operations and tenant data. Platform admins manage configuration and global content, not tenant PII or content.</li>
+<li><strong>Enforcement:</strong> Permission classes (e.g. <code>IsTenantUser</code>, <code>IsOwnerOrAdmin</code>) and view logic explicitly block SUPER_ADMIN from tenant-scoped endpoints.</li>
+</ul>
+<h3 id="admin-self-deletion">Admin Self-Deletion<a class="headerlink" href="#admin-self-deletion" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Decision:</strong> Admins cannot delete their own accounts (via any endpoint).</li>
+<li><strong>Rationale:</strong> Prevents lockout and accidental loss of tenant administration.</li>
+<li><strong>Enforcement:</strong> User deletion logic checks that the target is not the requesting user and that the target is a LISTENER.</li>
+</ul>
+<h3 id="deletion-of-other-admins">Deletion of Other Admins<a class="headerlink" href="#deletion-of-other-admins" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Decision:</strong> Only LISTENER users can be deleted by an ADMIN.</li>
+<li><strong>Rationale:</strong> Keeps admin lifecycle under control (e.g. via SUPER_ADMIN or out-of-band processes).</li>
+<li><strong>Enforcement:</strong> Admin delete endpoints restrict targets to LISTENER.</li>
+</ul>
+<h3 id="user-creation-and-verification">User Creation and Verification<a class="headerlink" href="#user-creation-and-verification" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Decision:</strong> LISTENER self-registers; ADMIN created by SUPER_ADMIN; ADMIN creates LISTENER. All created users must verify email before login.</li>
+<li><strong>Rationale:</strong> Ensures valid, reachable identities and controlled admin provisioning.</li>
+<li><strong>Enforcement:</strong> Registration and user-creation flows; <code>is_verified</code> and email verification checks at login.</li>
+</ul>
+<h3 id="password-change-and-sessions">Password Change and Sessions<a class="headerlink" href="#password-change-and-sessions" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Decision:</strong> Changing password blacklists all access and refresh tokens.</li>
+<li><strong>Rationale:</strong> Forces re-login everywhere after a password change, limiting exposure if a password was compromised.</li>
+<li><strong>Enforcement:</strong> Password-change handler invalidates tokens accordingly.</li>
+</ul>
+<h3 id="genre-and-tenant-deletion">Genre and Tenant Deletion<a class="headerlink" href="#genre-and-tenant-deletion" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Genre:</strong> Cannot delete a genre that has any linked (non–soft-deleted) songs.</li>
+<li><strong>Tenant:</strong> Cannot delete a tenant that has any active users.</li>
+<li><strong>Enforcement:</strong> Implemented in model delete logic or view logic, returning clear errors when constraints are violated.</li>
+</ul>
+<hr>
+<h2 id="design-philosophy">Design Philosophy<a class="headerlink" href="#design-philosophy" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Same resource, same endpoint:</strong> One set of URLs per resource. Access differences are enforced by permissions and queryset filtering, not by separate role-specific routes.</li>
+<li><strong>Explicit scope:</strong> Always filter by tenant (or ownership) in tenant-scoped APIs. Avoid implicit or optional tenant context.</li>
+<li><strong>Fail closed:</strong> Unclear or missing permission leads to denial (403), not grant.</li>
+<li><strong>Soft deletes:</strong> Deletions are soft where applicable (<code>deleted_at</code>). Supports restore and audit; hard delete only when necessary and safe.</li>
+<li><strong>Object-level checks:</strong> For ownership-sensitive resources (e.g. playlists), use object-level permissions (e.g. <code>IsOwnerOrAdmin</code>) in addition to view-level checks.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer">
+        
+          
+          <a href="../developer-setup/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Developer Setup">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Developer Setup
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "toc.integrate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
