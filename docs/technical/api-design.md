@@ -51,7 +51,7 @@ No role-specific or admin-specific URLs are used for resources.
 | POST | `/api/v1/tenant/{tenant_id}/auth/password-reset/` | All | Step 1 |
 | POST | `/api/v1/tenant/{tenant_id}/auth/password-reset/confirm/` | All | Step 2 |
 
-*Permissions:* AllowAny for auth flows; IsAuthenticated for logout.
+**Permissions:** AllowAny for auth flows; IsAuthenticated for logout.
 
 ---
 
@@ -69,7 +69,7 @@ No role-specific or admin-specific URLs are used for resources.
 | PATCH | `/api/v1/users/{id}/` | ❌ | ✅ | ✅ | Update LISTENER / ADMIN |
 | DELETE | `/api/v1/users/{id}/` | ❌ | ✅ | ✅ | Delete LISTENER / ADMIN |
 
-*Query params (GET /users/):* `page`, `page_size`, `is_active`, `name`, `email`.
+**Query params (GET /users/):** `page`, `page_size`, `is_active`, `name`, `email`.
 
 **User Deletion & Restoration:**
 
@@ -78,9 +78,9 @@ No role-specific or admin-specific URLs are used for resources.
 | POST | `/api/v1/users/{user_id}/restore/` | ADMIN / SUPER ADMIN | Body: `{"restore_data": true\|false}` |
 | GET | `/api/v1/users/deleted/` | ADMIN / SUPER ADMIN | ADMIN: tenant deleted users; SUPER_ADMIN: deleted admins |
 
-*Query params (GET /users/deleted/):* `page`, `page_size`, `deletion_type` (`self` \| `admin` \| `super admin`).
+**Query params (GET /users/deleted/):** `page`, `page_size`, `deletion_type` (`self` \| `admin` \| `super admin`).
 
-*Data filtering:* ADMIN sees tenant users (full details); SUPER_ADMIN sees count only (no PII) for GET /users/.
+**Data filtering:** ADMIN sees tenant users (full details); SUPER_ADMIN sees count only (no PII) for GET /users/.
 
 ---
 
@@ -97,11 +97,11 @@ No role-specific or admin-specific URLs are used for resources.
 | PATCH | `/api/v1/tenants/{id}/deactivate/` | ❌ | ❌ | ✅ | Deactivate |
 | GET | `/api/v1/super-admin/admins/` | ❌ | ❌ | ✅ | All admins |
 
-*Query params (GET /tenants/):* `page`, `page_size`.
+**Query params (GET /tenants/):** `page`, `page_size`.
 
-*Query params (GET /super-admin/admins/):* `page`, `page_size`, `is_active`, `name`, `email`, `tenant_id` (comma-separated UUIDs).
+**Query params (GET /super-admin/admins/):** `page`, `page_size`, `is_active`, `name`, `email`, `tenant_id` (comma-separated UUIDs).
 
-*Permissions:* IsSuperAdmin for mutate; IsAdminOrSuperAdmin for GET detail.
+**Permissions:** IsSuperAdmin for mutate; IsAdminOrSuperAdmin for GET detail.
 
 ---
 
@@ -116,7 +116,7 @@ No role-specific or admin-specific URLs are used for resources.
 | POST | `/api/v1/songs/bulk-add/` | ❌ | ✅ | ❌ | Bulk add to tenant |
 | POST | `/api/v1/tenant/songs/bulk-delete/` | ❌ | ✅ | ❌ | Bulk delete links |
 
-*Query params (GET /tenant/songs/):* `page`, `page_size`, `title`, `artist`, `genre`, `album` (all optional filters).
+**Query params (GET /tenant/songs/):** `page`, `page_size`, `title`, `artist`, `genre`, `album` (all optional filters).
 
 LISTENER sees approved tenant songs only; ADMIN sees all in tenant. SUPER_ADMIN has no access.
 
@@ -132,9 +132,10 @@ LISTENER sees approved tenant songs only; ADMIN sees all in tenant. SUPER_ADMIN 
 | PATCH | `/api/v1/songs/{id}/` | ❌ | ✅ | ✅ | TENANT / GLOBAL |
 | DELETE | `/api/v1/songs/{id}/` | ❌ | ✅ | ✅ | TENANT / GLOBAL |
 
-*Query params (GET /songs/):* `page`, `page_size`, `title`, `artist`, `genre`, `album` (all optional filters).
+**Query params (GET /songs/):** `page`, `page_size`, `title`, `artist`, `genre`, `album` (all optional filters).
 
-*Data separation:*
+**Data separation:**
+
 - LISTENER: No direct access; use `/api/v1/tenant/songs/`.
 - ADMIN: TENANT songs only (visibility=TENANT, tenant=user's tenant).
 - SUPER_ADMIN: GLOBAL songs only (visibility=GLOBAL).
@@ -153,9 +154,9 @@ LISTENER sees approved tenant songs only; ADMIN sees all in tenant. SUPER_ADMIN 
 | POST | `/api/v1/song-requests/{id}/review/` | ❌ | ✅ | ❌ | Approve/Reject |
 | POST | `/api/v1/song-requests/{id}/fulfill/` | ❌ | ✅ | ❌ | Fulfill request |
 
-*Query params (GET /song-requests/):* `page`, `page_size`, `status` (ADMIN only; filter by request status).
+**Query params (GET /song-requests/):** `page`, `page_size`, `status` (ADMIN only; filter by request status).
 
-*Permission:* IsAuthenticated + IsTenantUser. ADMIN can create requests for any tenant user via `user_id`.
+**Permission:** IsAuthenticated + IsTenantUser. ADMIN can create requests for any tenant user via `user_id`.
 
 ---
 
@@ -173,9 +174,9 @@ LISTENER sees approved tenant songs only; ADMIN sees all in tenant. SUPER_ADMIN 
 | DELETE | `/api/v1/playlists/{id}/songs/` | ✅ | ✅ | ❌ | Own / Tenant |
 | DELETE | `/api/v1/playlists/{playlist_id}/songs/{song_id}/` | ✅ | ✅ | ❌ | Remove song |
 
-*Query params (GET /playlists/):* `page`, `page_size`. *Query params (GET /playlists/{id}/songs/):* `page`, `page_size`.
+**Query params (GET /playlists/):** `page`, `page_size`. **Query params (GET /playlists/{id}/songs/):** `page`, `page_size`.
 
-*Permission:* IsAuthenticated; IsOwnerOrAdmin for detail. SUPER_ADMIN has no access.
+**Permission:** IsAuthenticated; IsOwnerOrAdmin for detail. SUPER_ADMIN has no access.
 
 ---
 
@@ -189,7 +190,7 @@ LISTENER sees approved tenant songs only; ADMIN sees all in tenant. SUPER_ADMIN 
 | PATCH | `/api/v1/genres/{id}/` | ❌ | ❌ | ✅ | Update |
 | DELETE | `/api/v1/genres/{id}/` | ❌ | ❌ | ✅ | Only if no songs linked |
 
-*Query params (GET /genres/):* `page`, `page_size`.
+**Query params (GET /genres/):** `page`, `page_size`.
 
 ---
 
@@ -203,9 +204,9 @@ LISTENER sees approved tenant songs only; ADMIN sees all in tenant. SUPER_ADMIN 
 | GET | `/api/v1/payments/super-admin/subscriptions/` | ❌ | ❌ | ✅ | All subscriptions |
 | GET | `/api/v1/payments/super-admin/payments/` | ❌ | ❌ | ✅ | All payments |
 
-*Query params (GET /payments/super-admin/subscriptions/):* `page`, `page_size`, `tenant_id`, `is_premium`.
+**Query params (GET /payments/super-admin/subscriptions/):** `page`, `page_size`, `tenant_id`, `is_premium`.
 
-*Query params (GET /payments/super-admin/payments/):* `page`, `page_size`, `tenant_id`, `status`.
+**Query params (GET /payments/super-admin/payments/):** `page`, `page_size`, `tenant_id`, `status`.
 
 ---
 

@@ -139,11 +139,15 @@ See [Functional Documentation](../functional-docs.md#roles) for capabilities and
 
 - **Endpoint**: `POST /api/v1/tenant/{tenant_id}/auth/verify-email/`
 - **Access**: All users (unverified accounts)
-- **Process**: Verify account using OTP from email
+- **Process**:
+  1. User provides OTP received via email
+  2. OTP verified against cache
+  3. Account marked as verified
 
 ### Login (Two-Step OTP)
 
 **Step 1: Request OTP**
+
 - **Endpoint**: `POST /api/v1/tenant/{tenant_id}/auth/login/`
 - **Access**: All verified users
 - **Process**: 
@@ -153,6 +157,7 @@ See [Functional Documentation](../functional-docs.md#roles) for capabilities and
   4. OTP cached in Redis
 
 **Step 2: Verify OTP**
+
 - **Endpoint**: `POST /api/v1/tenant/{tenant_id}/auth/login/verify-otp/`
 - **Access**: All verified users
 - **Process**:
@@ -171,20 +176,32 @@ See [Functional Documentation](../functional-docs.md#roles) for capabilities and
 
 - **Endpoint**: `POST /api/v1/token/refresh/`
 - **Access**: All authenticated users
-- **Process**: Refresh token exchanged for new access token
+- **Process**:
+  1. User provides valid refresh token
+  2. New access token issued
+  3. Old refresh token blacklisted (token rotation)
 - **Token Rotation**: Enabled (old refresh token blacklisted)
 
 ### Password Reset
 
 **Step 1: Request Reset OTP**
+
 - **Endpoint**: `POST /api/v1/tenant/{tenant_id}/auth/password-reset/`
 - **Access**: All users
-- **Process**: OTP sent to email
+- **Process**:
+  1. User requests password reset with email/username
+  2. OTP sent to registered email
+  3. OTP cached in Redis
 
 **Step 2: Confirm New Password**
+
 - **Endpoint**: `POST /api/v1/tenant/{tenant_id}/auth/password-reset/confirm/`
 - **Access**: All users
-- **Process**: New password set with OTP verification
+- **Process**:
+  1. User provides OTP and new password
+  2. OTP verified against cache
+  3. New password set
+  4. OTP invalidated
 
 ### Change Password
 
@@ -196,7 +213,9 @@ See [Functional Documentation](../functional-docs.md#roles) for capabilities and
 
 - **Endpoint**: `POST /api/v1/auth/logout/`
 - **Access**: All authenticated users
-- **Process**: Refresh token blacklisted, access token denylisted
+- **Process**:
+  1. Refresh token blacklisted
+  2. Access token denylisted
 
 ---
 
@@ -205,6 +224,7 @@ See [Functional Documentation](../functional-docs.md#roles) for capabilities and
 ### AllowAny
 
 Public access for:
+
 - Registration
 - Email verification
 - Login (OTP request & verify)
@@ -214,6 +234,7 @@ Public access for:
 ### IsAuthenticated
 
 Logged-in users only. Used for:
+
 - Profile management
 - Change password
 - Songs, playlists, genres
@@ -223,6 +244,7 @@ Logged-in users only. Used for:
 ### IsSuperAdmin
 
 Platform management only. Used for:
+
 - Tenant CRUD (except GET detail)
 - Activate/deactivate tenants
 - Genre CRUD
@@ -232,6 +254,7 @@ Platform management only. Used for:
 ### IsAdmin
 
 Tenant data management. Used for:
+
 - User management
 - Tenant-song links
 - Song request review
@@ -249,6 +272,7 @@ Admin or Super Admin access. Used for:
 ### IsOwnerOrAdmin
 
 Object-level permission:
+
 - ADMIN can access any object in their tenant
 - Owner can access their own object
 - Blocks SUPER_ADMIN from tenant data
@@ -258,6 +282,7 @@ Used for: Playlist detail operations
 ### IsTenantUser
 
 Tenant members only (blocks SUPER_ADMIN). Used for:
+
 - Song request endpoints
 
 ---
@@ -267,6 +292,7 @@ Tenant members only (blocks SUPER_ADMIN). Used for:
 ### Self-Deletion
 
 **Process**:
+
 1. User calls `DELETE /api/v1/users/me/`
 2. `deleted_by` set to user's own ID
 3. User's content (songs, playlists) marked as deleted
@@ -279,6 +305,7 @@ Tenant members only (blocks SUPER_ADMIN). Used for:
 ### Admin Deletion
 
 **Process**:
+
 1. ADMIN calls `DELETE /api/v1/users/{user_id}/delete/`
 2. `deleted_by` set to admin's ID
 3. User's active songs/playlists marked as deleted
@@ -297,10 +324,12 @@ Tenant members only (blocks SUPER_ADMIN). Used for:
 **Options**:
 
 **Without Data** (`restore_data=false`):
+
 - Account restored (user can login)
 - All content stays deleted
 
 **With Data** (`restore_data=true`):
+
 - Account restored
 - ALL deleted songs/playlists restored **EXCEPT** items user deleted themselves
 - Includes content deleted by admin during user deletion
